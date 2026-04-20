@@ -91,7 +91,7 @@ const AppInput: React.FC<AppInputProps> = ({
 
       {/* Error */}
       {error && (
-        <AppText variant="caption" className="text-red-500 mt-1">
+        <AppText variant="caption" className="mt-1" style={{ color: "red" }}>
           {error}
         </AppText>
       )}

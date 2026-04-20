@@ -1,175 +1,243 @@
-import { useTheme } from "@/shared/hooks";
+import { useButtonPressAnimation, useShakeAnimation } from "@/shared/hooks";
 import {
   AppButton,
-  AppTextInput as AppInput,
   AppText,
+  AppTextInput,
+  FadeSlideIn,
   ScreenWrapper,
 } from "@/shared/ui";
+import * as Haptics from "expo-haptics";
 import { useRouter } from "expo-router";
-import React, { useState } from "react";
-import { Pressable, ScrollView, View } from "react-native";
+import { useState } from "react";
+import { View } from "react-native";
+import Animated from "react-native-reanimated";
+
+const REGISTER_GRADIENT = ["#FF6444", "#FF9A85"] as const;
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export default function RegisterScreen() {
   const router = useRouter();
-  const { colors } = useTheme();
+  // const register = useAuthStore((s) => s.register);
+  // const registerStatus = useAuthStore((s) => s.registerStatus);
 
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
+  const [confirmPassword, setConfirmPassword] = useState("");
 
-  // TODO: wire up useAuth hook when slice is ready
-  const handleLogin = () => {};
+  const [nameError, setNameError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
+
+  const nameShake = useShakeAnimation();
+  const emailShake = useShakeAnimation();
+  const passwordShake = useShakeAnimation();
+  const confirmPasswordShake = useShakeAnimation();
+  const buttonPress = useButtonPressAnimation();
+
+  // const isLoading = registerStatus === "loading";
+
+  // ── Validation ─────────────────────────────────────────
+  const validate = (): boolean => {
+    let valid = true;
+
+    if (!name.trim()) {
+      setNameError("Full name is required");
+      nameShake.shake();
+      valid = false;
+    } else {
+      setNameError("");
+    }
+
+    if (!email.trim()) {
+      setEmailError("Email is required");
+      emailShake.shake();
+      valid = false;
+    } else if (!EMAIL_REGEX.test(email)) {
+      setEmailError("Enter a valid email address");
+      emailShake.shake();
+      valid = false;
+    } else {
+      setEmailError("");
+    }
+
+    if (!password) {
+      setPasswordError("Password is required");
+      passwordShake.shake();
+      valid = false;
+    } else if (password.length < 6) {
+      setPasswordError("Password must be at least 6 characters");
+      passwordShake.shake();
+      valid = false;
+    } else {
+      setPasswordError("");
+    }
+
+    if (!confirmPassword) {
+      setConfirmPasswordError("Please confirm your password");
+      confirmPasswordShake.shake();
+      valid = false;
+    } else if (password !== confirmPassword) {
+      setConfirmPasswordError("Passwords do not match");
+      confirmPasswordShake.shake();
+      valid = false;
+    } else {
+      setConfirmPasswordError("");
+    }
+
+    if (!valid) {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+    }
+
+    return valid;
+  };
+
+  // ── Submit ─────────────────────────────────────────────
+  const handleRegister = () => {
+    buttonPress.onPress(async () => {
+      if (!validate()) return;
+
+      try {
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+        // await register({
+        //   name: name.trim(),
+        //   email: email.trim(),
+        //   password,
+        //   username: name.trim().toLowerCase().replace(/\s+/g, ""),
+        //   role: "USER",
+        // });
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+        // Auth state change drives navigation — no router.replace here
+      } catch {
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+        // showToast handled inside store
+      }
+    });
+  };
 
   return (
-    <ScreenWrapper avoidKeyboard dismissKeyboardOnTap statusBarStyle="dark">
-      <ScrollView
-        contentContainerStyle={{ flexGrow: 1 }}
-        keyboardShouldPersistTaps="handled"
-        showsVerticalScrollIndicator={false}
-      >
-        <View className="flex-1 px-6 pt-12 pb-10">
-          {/* ── Brand ─────────────────────────────── */}
-          <View className="flex-row items-center gap-3 mb-10">
-            <View
-              className="w-10 h-10 rounded-xl items-center justify-center"
-              style={{ backgroundColor: colors.primary }}
-            >
-              <AppText variant="h3" color="#fff">
-                L
-              </AppText>
-            </View>
-            <View>
-              <AppText variant="h3" className="tracking-tight">
-                Lumio
-              </AppText>
-              <AppText variant="caption" color={colors.textMuted}>
-                Learn without limits
-              </AppText>
-            </View>
+    <ScreenWrapper
+      edges={["top", "left", "right"]}
+      safeArea
+      statusBarStyle="dark"
+    >
+      <View className="flex-1 px-6 pt-5 pb-10">
+        {/* ── Heading ── */}
+        <FadeSlideIn delay={0}>
+          <View className="items-center mb-8">
+            <AppText variant="h1" className="mb-1 text-center">
+              Create Account
+            </AppText>
+            <AppText variant="body2" className="text-gray-500 text-center px-6">
+              Join Lumino and start your learning journey today
+            </AppText>
           </View>
+        </FadeSlideIn>
 
-          {/* ── Eyebrow tag ─────────────────────── */}
-          <View
-            className="self-start flex-row items-center gap-2 px-3 py-1 rounded-lg mb-3"
-            style={{ backgroundColor: "#FFF0ED" }}
-          >
-            <View
-              className="w-1.5 h-1.5 rounded-full"
-              style={{ backgroundColor: colors.primary }}
+        {/* ── Form ── */}
+        <FadeSlideIn delay={150}>
+          {/* Name */}
+          <Animated.View style={nameShake.animatedStyle}>
+            <AppTextInput
+              label="Full Name"
+              placeholder="John Doe"
+              leftIcon="person-outline"
+              autoCapitalize="words"
+              value={name}
+              onChangeText={setName}
+              error={nameError}
             />
-            <AppText
-              variant="caption"
-              color="#C84B2F"
-              className="font-semibold"
-            >
-              Sign in
-            </AppText>
-          </View>
+          </Animated.View>
 
-          {/* ── Heading ─────────────────────────── */}
-          <AppText variant="h1" className="mb-2 tracking-tight leading-tight">
-            Welcome{"\n"}back.
-          </AppText>
+          {/* Email */}
+          <Animated.View style={emailShake.animatedStyle}>
+            <AppTextInput
+              label="Email Address"
+              placeholder="you@example.com"
+              leftIcon="mail-outline"
+              keyboardType="email-address"
+              autoCapitalize="none"
+              value={email}
+              onChangeText={setEmail}
+              error={emailError}
+            />
+          </Animated.View>
+
+          {/* Password */}
+          <Animated.View style={passwordShake.animatedStyle}>
+            <AppTextInput
+              label="Password"
+              placeholder="Min. 6 characters"
+              leftIcon="lock-closed-outline"
+              secureTextEntry
+              value={password}
+              onChangeText={setPassword}
+              error={passwordError}
+            />
+          </Animated.View>
+
+          {/* Confirm Password */}
+          <Animated.View style={confirmPasswordShake.animatedStyle}>
+            <AppTextInput
+              label="Confirm Password"
+              placeholder="Re-enter your password"
+              leftIcon="lock-closed-outline"
+              secureTextEntry
+              value={confirmPassword}
+              onChangeText={setConfirmPassword}
+              error={confirmPasswordError}
+            />
+          </Animated.View>
+        </FadeSlideIn>
+
+        {/* ── CTA ── */}
+        <FadeSlideIn delay={300}>
+          <Animated.View style={buttonPress.animatedStyle}>
+            <AppButton
+              title="Create Account"
+              // loading={isLoading}
+              // disabled={isLoading}
+              onPress={handleRegister}
+              className="mt-2"
+            />
+          </Animated.View>
+        </FadeSlideIn>
+
+        {/* ── Divider ── */}
+        <FadeSlideIn delay={450}>
+          <View className="flex-row items-center my-8">
+            <View className="flex-1 h-px bg-gray-200" />
+            <AppText variant="caption" className="mx-4 text-gray-400">
+              Already a member?
+            </AppText>
+            <View className="flex-1 h-px bg-gray-200" />
+          </View>
+        </FadeSlideIn>
+
+        {/* ── Sign In ── */}
+        <FadeSlideIn delay={550}>
+          <AppButton
+            title="Sign In"
+            variant="outline"
+            onPress={() => {
+              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+              router.replace("/(auth)/login");
+            }}
+          />
+        </FadeSlideIn>
+
+        {/* ── Terms ── */}
+        <FadeSlideIn delay={650}>
           <AppText
-            variant="body2"
-            color={colors.textSecondary}
-            className="mb-6"
+            variant="caption"
+            className="text-gray-400 text-center mt-6 px-4"
           >
-            Pick up right where you left off.
+            By creating an account, you agree to our Terms of Service and
+            Privacy Policy
           </AppText>
-
-          {/* ── Accent divider ─────────────────── */}
-          <View
-            className="w-8 h-1 rounded-full mb-7"
-            style={{ backgroundColor: colors.primary }}
-          />
-
-          {/* ── Form ────────────────────────────── */}
-          <AppInput
-            label="Email"
-            placeholder="your@email.com"
-            keyboardType="email-address"
-            autoCapitalize="none"
-            autoComplete="email"
-            leftIcon="mail-outline"
-            variant="outline"
-            value={email}
-            onChangeText={setEmail}
-          />
-
-          <AppInput
-            label="Password"
-            placeholder="Enter your password"
-            secureTextEntry={!showPassword}
-            autoComplete="password"
-            leftIcon="lock-closed-outline"
-            rightIcon={showPassword ? "eye-off-outline" : "eye-outline"}
-            onRightPress={() => setShowPassword((p) => !p)}
-            variant="outline"
-            value={password}
-            onChangeText={setPassword}
-          />
-
-          {/* ── Forgot password ─────────────────── */}
-          <Pressable
-            className="items-end mb-6 -mt-2"
-            // onPress={() => router.push("/auth/forgot-password")}
-            hitSlop={{ top: 8, bottom: 8 }}
-          >
-            <AppText
-              variant="body2"
-              color={colors.primary}
-              className="font-semibold"
-            >
-              Forgot password?
-            </AppText>
-          </Pressable>
-
-          {/* ── Login button ─────────────────────── */}
-          <AppButton
-            title="Continue"
-            variant="primary"
-            onPress={handleLogin}
-            className="mb-5"
-          />
-
-          {/* ── Divider ──────────────────────────── */}
-          <View className="flex-row items-center gap-3 mb-5">
-            <View className="flex-1 h-px bg-gray-200" />
-            <AppText variant="caption" color={colors.textMuted}>
-              or
-            </AppText>
-            <View className="flex-1 h-px bg-gray-200" />
-          </View>
-
-          {/* ── Google button ───────────────────── */}
-          <AppButton
-            title="Continue with Google"
-            variant="outline"
-            onPress={() => {}}
-            className="mb-8"
-          />
-
-          {/* ── Sign up link ─────────────────────── */}
-          <View className="flex-row justify-center items-center">
-            <AppText variant="body2" color={colors.textMuted}>
-              New to Lumio?{" "}
-            </AppText>
-            <Pressable
-              // onPress={() => router.push("/auth/register")}
-              hitSlop={{ top: 8, bottom: 8 }}
-            >
-              <AppText
-                variant="body2"
-                color={colors.primary}
-                className="font-bold"
-              >
-                Create account
-              </AppText>
-            </Pressable>
-          </View>
-        </View>
-      </ScrollView>
+        </FadeSlideIn>
+      </View>
     </ScreenWrapper>
   );
 }

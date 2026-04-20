@@ -14,7 +14,17 @@ export default function RootLayout() {
           screenOptions={{
             headerShown: false,
           }}
-        />
+        >
+          <Stack.Screen name="index" />
+          <Stack.Screen name="(auth)" />
+          <Stack.Screen name="(main)" />
+          <Stack.Screen
+            name="courses/[id]"
+            options={{
+              animation: "slide_from_right",
+            }}
+          />
+        </Stack>
       </KeyboardProvider>
     </SafeAreaProvider>
   );

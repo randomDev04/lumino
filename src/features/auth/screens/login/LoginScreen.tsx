@@ -12,8 +12,10 @@ import { router } from "expo-router";
 import React, { useState } from "react";
 import { View } from "react-native";
 import Animated from "react-native-reanimated";
+import { useAuthStore } from "../../store";
 
 export default function LoginScreen() {
+  const { login } = useAuthStore();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
@@ -56,6 +58,7 @@ export default function LoginScreen() {
       try {
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
         // await login({ email, password });
+        login();
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
         // Navigation is handled by your root navigator watching auth state
         // Don't navigate manually here — let Redux/auth state drive it

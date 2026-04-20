@@ -80,7 +80,7 @@ export default function ForgotScreen() {
 
         {/* ── Icon + Heading ── */}
         <FadeSlideIn delay={100}>
-          <View className="items-center mt-10 mb-10">
+          <View className="items-center mt-6 mb-10">
             <View className="bg-orange-500 w-20 h-20 rounded-full items-center justify-center mb-5">
               <AppIcon
                 icon={{ type: "expo", family: "Ionicons", name: "lock-closed" }}
@@ -91,7 +91,7 @@ export default function ForgotScreen() {
             <AppText variant="h1" className="mb-2 text-center">
               Forgot Password?
             </AppText>
-            <AppText variant="body2" className="text-gray-500 text-center px-4">
+            <AppText variant="body2" className="text-center text-gray-500 ">
               Enter your email and we'll send you instructions to reset your
               password.
             </AppText>
