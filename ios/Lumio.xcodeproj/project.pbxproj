@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
-		39C78DD7B7BB5EE04625DDC2 /* libPods-gymuzzitrainer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 090B1CB6812F8BF31B797294 /* libPods-gymuzzitrainer.a */; };
+		39C78DD7B7BB5EE04625DDC2 /* libPods-Lumio.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 090B1CB6812F8BF31B797294 /* libPods-Lumio.a */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
 		7D81D68C6108052CB1055199 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 84B47F567D4D9E46D5D73B7E /* PrivacyInfo.xcprivacy */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
@@ -17,19 +17,19 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		090B1CB6812F8BF31B797294 /* libPods-gymuzzitrainer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-gymuzzitrainer.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07F961A680F5B00A75B9A /* gymuzzitrainer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gymuzzitrainer.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = gymuzzitrainer/Images.xcassets; sourceTree = "<group>"; };
-		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = gymuzzitrainer/Info.plist; sourceTree = "<group>"; };
-		83A472DA0C706CCFB857BF5E /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-gymuzzitrainer/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
-		84B47F567D4D9E46D5D73B7E /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = gymuzzitrainer/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		96853279CF2F646504B75B2A /* Pods-gymuzzitrainer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-gymuzzitrainer.release.xcconfig"; path = "Target Support Files/Pods-gymuzzitrainer/Pods-gymuzzitrainer.release.xcconfig"; sourceTree = "<group>"; };
-		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = gymuzzitrainer/SplashScreen.storyboard; sourceTree = "<group>"; };
-		AFF70C406AECD4522AA0CC89 /* Pods-gymuzzitrainer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-gymuzzitrainer.debug.xcconfig"; path = "Target Support Files/Pods-gymuzzitrainer/Pods-gymuzzitrainer.debug.xcconfig"; sourceTree = "<group>"; };
+		090B1CB6812F8BF31B797294 /* libPods-Lumio.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Lumio.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07F961A680F5B00A75B9A /* Lumio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Lumio.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = "Lumio/Images.xcassets"; sourceTree = "<group>"; };
+		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "Lumio/Info.plist"; sourceTree = "<group>"; };
+		83A472DA0C706CCFB857BF5E /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-Lumio/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
+		84B47F567D4D9E46D5D73B7E /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = Lumio/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		96853279CF2F646504B75B2A /* Pods-Lumio.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Lumio.release.xcconfig"; path = "Target Support Files/Pods-Lumio/Pods-Lumio.release.xcconfig"; sourceTree = "<group>"; };
+		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = Lumio/SplashScreen.storyboard; sourceTree = "<group>"; };
+		AFF70C406AECD4522AA0CC89 /* Pods-Lumio.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Lumio.debug.xcconfig"; path = "Target Support Files/Pods-Lumio/Pods-Lumio.debug.xcconfig"; sourceTree = "<group>"; };
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		F11748412D0307B40044C1D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = gymuzzitrainer/AppDelegate.swift; sourceTree = "<group>"; };
-		F11748442D0722820044C1D9 /* gymuzzitrainer-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "gymuzzitrainer-Bridging-Header.h"; path = "gymuzzitrainer/gymuzzitrainer-Bridging-Header.h"; sourceTree = "<group>"; };
+		F11748412D0307B40044C1D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = Lumio/AppDelegate.swift; sourceTree = "<group>"; };
+		F11748442D0722820044C1D9 /* Lumio-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Lumio-Bridging-Header.h"; path = "Lumio/Lumio-Bridging-Header.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,32 +37,32 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				39C78DD7B7BB5EE04625DDC2 /* libPods-gymuzzitrainer.a in Frameworks */,
+				39C78DD7B7BB5EE04625DDC2 /* libPods-Lumio.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		13B07FAE1A68108700A75B9A /* gymuzzitrainer */ = {
+		13B07FAE1A68108700A75B9A /* Lumio */ = {
 			isa = PBXGroup;
 			children = (
 				F11748412D0307B40044C1D9 /* AppDelegate.swift */,
-				F11748442D0722820044C1D9 /* gymuzzitrainer-Bridging-Header.h */,
+				F11748442D0722820044C1D9 /* Lumio-Bridging-Header.h */,
 				BB2F792B24A3F905000567C9 /* Supporting */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
 				84B47F567D4D9E46D5D73B7E /* PrivacyInfo.xcprivacy */,
 			);
-			name = gymuzzitrainer;
+			name = "Lumio";
 			sourceTree = "<group>";
 		};
 		1894F1FBDB4C5A74ABE86F13 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				AFF70C406AECD4522AA0CC89 /* Pods-gymuzzitrainer.debug.xcconfig */,
-				96853279CF2F646504B75B2A /* Pods-gymuzzitrainer.release.xcconfig */,
+				AFF70C406AECD4522AA0CC89 /* Pods-Lumio.debug.xcconfig */,
+				96853279CF2F646504B75B2A /* Pods-Lumio.release.xcconfig */,
 			);
 			name = Pods;
 			path = Pods;
@@ -72,7 +72,7 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				090B1CB6812F8BF31B797294 /* libPods-gymuzzitrainer.a */,
+				090B1CB6812F8BF31B797294 /* libPods-Lumio.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -87,7 +87,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				13B07FAE1A68108700A75B9A /* gymuzzitrainer */,
+				13B07FAE1A68108700A75B9A /* Lumio */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
@@ -102,7 +102,7 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* gymuzzitrainer.app */,
+				13B07F961A680F5B00A75B9A /* Lumio.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -113,31 +113,31 @@
 				BB2F792C24A3F905000567C9 /* Expo.plist */,
 			);
 			name = Supporting;
-			path = gymuzzitrainer/Supporting;
+			path = Lumio/Supporting;
 			sourceTree = "<group>";
 		};
 		DD42768830E3C46CEE596FC0 /* ExpoModulesProviders */ = {
 			isa = PBXGroup;
 			children = (
-				ED066F720D099C48BA16973C /* gymuzzitrainer */,
+				ED066F720D099C48BA16973C /* Lumio */,
 			);
 			name = ExpoModulesProviders;
 			sourceTree = "<group>";
 		};
-		ED066F720D099C48BA16973C /* gymuzzitrainer */ = {
+		ED066F720D099C48BA16973C /* Lumio */ = {
 			isa = PBXGroup;
 			children = (
 				83A472DA0C706CCFB857BF5E /* ExpoModulesProvider.swift */,
 			);
-			name = gymuzzitrainer;
+			name = "Lumio";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		13B07F861A680F5B00A75B9A /* gymuzzitrainer */ = {
+		13B07F861A680F5B00A75B9A /* Lumio */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "gymuzzitrainer" */;
+			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Lumio" */;
 			buildPhases = (
 				08A4A3CD28434E44B6B9DE2E /* [CP] Check Pods Manifest.lock */,
 				37AA827748C10B041B9D65E5 /* [Expo] Configure project */,
@@ -152,9 +152,9 @@
 			);
 			dependencies = (
 			);
-			name = gymuzzitrainer;
-			productName = gymuzzitrainer;
-			productReference = 13B07F961A680F5B00A75B9A /* gymuzzitrainer.app */;
+			name = "Lumio";
+			productName = "Lumio";
+			productReference = 13B07F961A680F5B00A75B9A /* Lumio.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -170,7 +170,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "gymuzzitrainer" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Lumio" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -183,7 +183,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				13B07F861A680F5B00A75B9A /* gymuzzitrainer */,
+				13B07F861A680F5B00A75B9A /* Lumio */,
 			);
 		};
 /* End PBXProject section */
@@ -235,7 +235,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-gymuzzitrainer-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Lumio-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -253,18 +253,18 @@
 			inputPaths = (
 				"$(SRCROOT)/.xcode.env",
 				"$(SRCROOT)/.xcode.env.local",
-				"$(SRCROOT)/gymuzzitrainer/gymuzzitrainer.entitlements",
-				"$(SRCROOT)/Pods/Target Support Files/Pods-gymuzzitrainer/expo-configure-project.sh",
+				"$(SRCROOT)/Lumio/Lumio.entitlements",
+				"$(SRCROOT)/Pods/Target Support Files/Pods-Lumio/expo-configure-project.sh",
 			);
 			name = "[Expo] Configure project";
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(SRCROOT)/Pods/Target Support Files/Pods-gymuzzitrainer/ExpoModulesProvider.swift",
+				"$(SRCROOT)/Pods/Target Support Files/Pods-Lumio/ExpoModulesProvider.swift",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# This script configures Expo modules and generates the modules provider file.\nbash -l -c \"./Pods/Target\\ Support\\ Files/Pods-gymuzzitrainer/expo-configure-project.sh\"\n";
+			shellScript = "# This script configures Expo modules and generates the modules provider file.\nbash -l -c \"./Pods/Target\\ Support\\ Files/Pods-Lumio/expo-configure-project.sh\"\n";
 		};
 		800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -272,7 +272,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-gymuzzitrainer/Pods-gymuzzitrainer-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-Lumio/Pods-Lumio-resources.sh",
 				"${PODS_CONFIGURATION_BUILD_DIR}/EXApplication/ExpoApplication_privacy.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/EXConstants/EXConstants.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/EXConstants/ExpoConstants_privacy.bundle",
@@ -297,7 +297,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-gymuzzitrainer/Pods-gymuzzitrainer-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Lumio/Pods-Lumio-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		A763C1B653545D60A6AFC57C /* [CP] Embed Pods Frameworks */ = {
@@ -306,7 +306,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-gymuzzitrainer/Pods-gymuzzitrainer-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-Lumio/Pods-Lumio-frameworks.sh",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/React-Core-prebuilt/React.framework/React",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/ReactNativeDependencies/ReactNativeDependencies.framework/ReactNativeDependencies",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/Pre-built/hermes.framework/hermes",
@@ -319,7 +319,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-gymuzzitrainer/Pods-gymuzzitrainer-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Lumio/Pods-Lumio-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -339,18 +339,19 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AFF70C406AECD4522AA0CC89 /* Pods-gymuzzitrainer.debug.xcconfig */;
+			baseConfigurationReference = AFF70C406AECD4522AA0CC89 /* Pods-Lumio.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = gymuzzitrainer/gymuzzitrainer.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Lumio/Lumio.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"FB_SONARKIT_ENABLED=1",
 				);
-				INFOPLIST_FILE = gymuzzitrainer/Info.plist;
+				INFOPLIST_FILE = "Lumio/Info.plist";
+             INFOPLIST_KEY_CFBundleDisplayName = "Lumio";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -363,9 +364,9 @@
 					"-lc++",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
-				PRODUCT_BUNDLE_IDENTIFIER = com.anonymous.gymuzzitrainer;
-				PRODUCT_NAME = gymuzzitrainer;
-				SWIFT_OBJC_BRIDGING_HEADER = "gymuzzitrainer/gymuzzitrainer-Bridging-Header.h";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.lms.lumio";
+				PRODUCT_NAME = "Lumio";
+				SWIFT_OBJC_BRIDGING_HEADER = "Lumio/Lumio-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -375,13 +376,14 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 96853279CF2F646504B75B2A /* Pods-gymuzzitrainer.release.xcconfig */;
+			baseConfigurationReference = 96853279CF2F646504B75B2A /* Pods-Lumio.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = gymuzzitrainer/gymuzzitrainer.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Lumio/Lumio.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
-				INFOPLIST_FILE = gymuzzitrainer/Info.plist;
+				INFOPLIST_FILE = "Lumio/Info.plist";
+             INFOPLIST_KEY_CFBundleDisplayName = "Lumio";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -394,9 +396,9 @@
 					"-lc++",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
-				PRODUCT_BUNDLE_IDENTIFIER = com.anonymous.gymuzzitrainer;
-				PRODUCT_NAME = gymuzzitrainer;
-				SWIFT_OBJC_BRIDGING_HEADER = "gymuzzitrainer/gymuzzitrainer-Bridging-Header.h";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.lms.lumio";
+				PRODUCT_NAME = "Lumio";
+				SWIFT_OBJC_BRIDGING_HEADER = "Lumio/Lumio-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -524,7 +526,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "gymuzzitrainer" */ = {
+		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Lumio" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
@@ -533,7 +535,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "gymuzzitrainer" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Lumio" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,

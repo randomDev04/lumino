@@ -1,4 +1,4 @@
-package com.anonymous.gymuzzitrainer
+package com.lms.lumio
 
 import android.app.Application
 import android.content.res.Configuration
