@@ -1,16 +1,16 @@
 {
   "expo": {
-    "name": "gymuzzi-trainer",
-    "slug": "gymuzzi-trainer",
+    "name": "Lumio",
+    "slug": "Lumio",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "gymuzzitrainer",
+    "scheme": "lumio",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.gymuzzitrainer"
+      "bundleIdentifier": "com.lms.lumio"
     },
     "android": {
       "adaptiveIcon": {
@@ -21,7 +21,7 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.anonymous.gymuzzitrainer"
+      "package": "com.lms.lumio"
     },
     "web": {
       "output": "static",
