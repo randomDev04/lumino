@@ -1,21 +1,21 @@
 // app/(main)/profile/settings.tsx  (or wherever your settings route lives)
 
 import {
-    AppIcon,
-    AppText,
-    CustomHeader,
-    FadeSlideIn,
-    ScreenWrapper,
+  AppIcon,
+  AppText,
+  CustomHeader,
+  FadeSlideIn,
+  ScreenWrapper,
 } from "@/shared/ui";
 import * as Haptics from "expo-haptics";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Pressable, ScrollView, Switch, View } from "react-native";
 import Animated, {
-    useAnimatedStyle,
-    useSharedValue,
-    withSequence,
-    withSpring,
+  useAnimatedStyle,
+  useSharedValue,
+  withSequence,
+  withSpring,
 } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -260,7 +260,7 @@ function DangerRow({
 // ─────────────────────────────────────────────────────
 // SettingsScreen
 // ─────────────────────────────────────────────────────
-export default function SettingsScreen() {
+function SettingsScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
 
@@ -444,3 +444,5 @@ export default function SettingsScreen() {
     </ScreenWrapper>
   );
 }
+
+export default SettingsScreen;

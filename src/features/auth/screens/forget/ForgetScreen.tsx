@@ -10,17 +10,18 @@ import {
 import * as Haptics from "expo-haptics";
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { Pressable, View } from "react-native";
+import { Alert, Pressable, View } from "react-native";
 import Animated from "react-native-reanimated";
+import { useAuthStore } from "../../store";
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export default function ForgotScreen() {
   const router = useRouter();
-  //   const forgotPassword = useAuthStore((s) => s.forgotPassword); // wire to your store action
+
+  const { forgotPassword, loading } = useAuthStore();
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
-  const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
 
   const emailShake = useShakeAnimation();
@@ -46,14 +47,20 @@ export default function ForgotScreen() {
     if (!validate()) return;
 
     try {
-      setLoading(true);
-      //   await forgotPassword(email);
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+
+      await forgotPassword(email.trim());
+
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-      setSent(true); // show success state inline — no Alert
-    } catch {
-      // errors handled via showToast in your store
-    } finally {
-      setLoading(false);
+
+      setSent(true);
+    } catch (error) {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+      console.log("Forgot password error:", error);
+      Alert.alert(
+        "Error",
+        error?.message || "Failed to send reset email. Please try again.",
+      );
     }
   };
 
@@ -81,7 +88,7 @@ export default function ForgotScreen() {
         {/* ── Icon + Heading ── */}
         <FadeSlideIn delay={100}>
           <View className="items-center mt-6 mb-10">
-            <View className="bg-orange-500 w-20 h-20 rounded-full items-center justify-center mb-5">
+            <View className="bg-blue-400 w-20 h-20 rounded-full items-center justify-center mb-5">
               <AppIcon
                 icon={{ type: "expo", family: "Ionicons", name: "lock-closed" }}
                 size={36}
@@ -166,7 +173,7 @@ export default function ForgotScreen() {
                     name: "information-circle",
                   }}
                   size={22}
-                  color="#FF6444"
+                  color="#44a5ff"
                 />
                 <View className="flex-1 ml-3">
                   <AppText

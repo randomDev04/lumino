@@ -1,162 +1,26 @@
+import { useCourseStore } from "@/features/main/store/useCourseStore";
+import { useTheme } from "@/shared/hooks";
 import { AppButton, AppIcon, AppText, ScreenWrapper } from "@/shared/ui";
 import * as Haptics from "expo-haptics";
 import { LinearGradient } from "expo-linear-gradient";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { useState } from "react";
-import { Dimensions, Image, Pressable, Share, View } from "react-native";
+import { useEffect, useState } from "react";
+import { Image, Pressable, Share, View } from "react-native";
 import Animated, {
-    FadeInDown,
-    FadeInRight,
-    useAnimatedScrollHandler,
-    useAnimatedStyle,
-    useSharedValue,
-    withSequence,
-    withSpring,
+  FadeInDown,
+  FadeInRight,
+  useAnimatedScrollHandler,
+  useAnimatedStyle,
+  useSharedValue,
+  withSequence,
+  withSpring,
 } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-// ── Constants ──────────────────────────────────────────
-const { width } = Dimensions.get("window");
 const HEADER_HEIGHT = 300;
-const ENROLL_GRADIENT = ["#3B82F6", "#8B5CF6"] as const;
 
 // ── Types ──────────────────────────────────────────────
 type Level = "Beginner" | "Intermediate" | "Advanced";
-
-type Course = {
-  id: string;
-  title: string;
-  description: string;
-  category: string;
-  thumbnail: string;
-  instructor: {
-    name: string;
-    avatar: string;
-    username: string;
-    bio: string;
-    totalStudents: number;
-    totalCourses: number;
-  };
-  rating: number;
-  totalStudents: number;
-  duration: string;
-  totalLessons: number;
-  price: number;
-  level: Level;
-  isBestseller?: boolean;
-  isEnrolled?: boolean;
-  isBookmarked?: boolean;
-  whatYoullLearn: string[];
-  curriculum: { title: string; duration: string; isPreview?: boolean }[];
-  requirements: string[];
-};
-
-// ── Mock Data ──────────────────────────────────────────
-const MOCK_COURSES: Course[] = [
-  {
-    id: "1",
-    title: "Complete React Native Developer in 2024",
-    description:
-      "Build mobile apps for iOS and Android using React Native, Expo, and TypeScript. This course covers everything from fundamentals to production deployment, including state management, navigation, animations, and real-world API integration.",
-    category: "Mobile Dev",
-    thumbnail:
-      "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800",
-    instructor: {
-      name: "Arjun Sharma",
-      username: "arjunsharma",
-      avatar: "https://i.pravatar.cc/150?img=12",
-      bio: "Senior Mobile Engineer at Razorpay. 8+ years building production apps.",
-      totalStudents: 45000,
-      totalCourses: 12,
-    },
-    rating: 4.8,
-    totalStudents: 12400,
-    duration: "24h 10m",
-    totalLessons: 142,
-    price: 1299,
-    level: "Beginner",
-    isBestseller: true,
-    isEnrolled: false,
-    isBookmarked: false,
-    whatYoullLearn: [
-      "Build cross-platform apps with React Native & Expo",
-      "Master Redux Toolkit and Zustand for state management",
-      "Implement complex animations with Reanimated 3",
-      "Integrate REST APIs and handle authentication",
-      "Deploy apps to App Store and Google Play",
-      "Write clean, maintainable TypeScript code",
-    ],
-    curriculum: [
-      { title: "Introduction & Setup", duration: "45 min", isPreview: true },
-      {
-        title: "React Native Fundamentals",
-        duration: "2h 10m",
-        isPreview: true,
-      },
-      { title: "Navigation with Expo Router", duration: "1h 30m" },
-      { title: "State Management Deep Dive", duration: "3h 00m" },
-      { title: "Animations with Reanimated", duration: "2h 45m" },
-      { title: "API Integration & Auth", duration: "2h 20m" },
-      { title: "Push Notifications", duration: "1h 15m" },
-      { title: "Publishing to App Stores", duration: "1h 00m" },
-    ],
-    requirements: [
-      "Basic JavaScript knowledge",
-      "Familiarity with React concepts",
-      "A Mac or Windows computer",
-      "No mobile development experience needed",
-    ],
-  },
-  {
-    id: "2",
-    title: "UI/UX Design Masterclass",
-    description:
-      "Master Figma, design systems, and user research to build stunning digital products loved by users.",
-    category: "Design",
-    thumbnail:
-      "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800",
-    instructor: {
-      name: "Priya Nair",
-      username: "priyanair",
-      avatar: "https://i.pravatar.cc/150?img=47",
-      bio: "Lead Designer at Swiggy. Speaker at Design+Dev Summit.",
-      totalStudents: 28000,
-      totalCourses: 6,
-    },
-    rating: 4.7,
-    totalStudents: 8900,
-    duration: "18h 45m",
-    totalLessons: 98,
-    price: 999,
-    level: "Intermediate",
-    isBestseller: false,
-    isEnrolled: false,
-    isBookmarked: true,
-    whatYoullLearn: [
-      "Master Figma from scratch to advanced",
-      "Build scalable design systems",
-      "Conduct effective user research",
-      "Create high-fidelity prototypes",
-      "Hand off designs to developers",
-    ],
-    curriculum: [
-      {
-        title: "Design Thinking Fundamentals",
-        duration: "1h 00m",
-        isPreview: true,
-      },
-      { title: "Figma Basics", duration: "2h 30m", isPreview: true },
-      { title: "Design Systems", duration: "3h 00m" },
-      { title: "User Research Methods", duration: "2h 00m" },
-      { title: "Prototyping & Testing", duration: "2h 15m" },
-    ],
-    requirements: [
-      "No prior design experience needed",
-      "Figma free account",
-      "Creative mindset",
-    ],
-  },
-];
 
 const LEVEL_COLORS: Record<Level, string> = {
   Beginner: "#22C55E",
@@ -278,21 +142,32 @@ function AccordionSection({
 // CourseDetailScreen
 // ─────────────────────────────────────────────────────
 export default function CourseDetailScreen() {
+  const { isDark } = useTheme();
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
   const insets = useSafeAreaInsets();
 
-  const course = MOCK_COURSES.find((c) => c.id === id) ?? MOCK_COURSES[0];
+  const { courses, fetchCourses, toggleBookmark, enrollCourse } =
+    useCourseStore();
 
-  const [isEnrolled, setIsEnrolled] = useState(course.isEnrolled ?? false);
-  const [isBookmarked, setIsBookmarked] = useState(
-    course.isBookmarked ?? false,
-  );
-  const [enrolling, setEnrolling] = useState(false);
+  const course = courses.find((c) => c.id === id);
+
   const [openSection, setOpenSection] = useState<string | null>("learn");
 
   const scrollY = useSharedValue(0);
   const enrollScale = useSharedValue(1);
+
+  let user = {
+    title: "Mr",
+    first: "John",
+    last: "Doe",
+  };
+
+  useEffect(() => {
+    if (!courses.length) {
+      fetchCourses();
+    }
+  }, []);
 
   // ── Scroll handler ─────────────────────────────────
   const scrollHandler = useAnimatedScrollHandler({
@@ -316,21 +191,18 @@ export default function CourseDetailScreen() {
 
   // ── Enroll ─────────────────────────────────────────
   const handleEnroll = () => {
-    if (isEnrolled) return;
+    if (course.isEnrolled) return;
+
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+
     enrollScale.value = withSequence(
       withSpring(0.93),
       withSpring(1.04),
       withSpring(1),
     );
-    setEnrolling(true);
-    setTimeout(() => {
-      setEnrolling(false);
-      setIsEnrolled(true);
-      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-    }, 1400);
-  };
 
+    enrollCourse(course.id);
+  };
   const enrollButtonStyle = useAnimatedStyle(() => ({
     transform: [{ scale: enrollScale.value }],
   }));
@@ -339,6 +211,16 @@ export default function CourseDetailScreen() {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     setOpenSection((prev) => (prev === key ? null : key));
   };
+
+  if (!courses.length) {
+    return (
+      <ScreenWrapper safeArea>
+        <View className="flex-1 items-center justify-center">
+          <AppText>Loading course...</AppText>
+        </View>
+      </ScreenWrapper>
+    );
+  }
 
   // ── Not found ──────────────────────────────────────
   if (!course) {
@@ -453,9 +335,24 @@ export default function CourseDetailScreen() {
 
             <View className="flex-row gap-2">
               <Pressable
+                onPress={() => router.push(`/courses/webView/${course.id}`)}
+                className={`${isDark ? "bg-gray-800/90" : "bg-white/90"} p-2 rounded-full shadow-md mr-2`}
+              >
+                <AppIcon
+                  icon={{
+                    type: "expo",
+                    family: "Ionicons",
+                    name: "globe-outline",
+                  }}
+                  size={22}
+                  color={isDark ? "#F3F4F6" : "#1F2937"}
+                />
+              </Pressable>
+
+              <Pressable
                 onPress={() => {
                   Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-                  setIsBookmarked((p) => !p);
+                  toggleBookmark(course.id);
                 }}
                 className="bg-white/90 p-2 rounded-full"
               >
@@ -463,10 +360,10 @@ export default function CourseDetailScreen() {
                   icon={{
                     type: "expo",
                     family: "Ionicons",
-                    name: isBookmarked ? "bookmark" : "bookmark-outline",
+                    name: course.isBookmarked ? "bookmark" : "bookmark-outline",
                   }}
                   size={22}
-                  color={isBookmarked ? "#3B82F6" : "#1F2937"}
+                  color={course.isBookmarked ? "#3B82F6" : "#1F2937"}
                 />
               </Pressable>
               <Pressable
@@ -489,7 +386,7 @@ export default function CourseDetailScreen() {
           </View>
 
           {/* Enrolled Badge */}
-          {isEnrolled && (
+          {course.isEnrolled && (
             <View className="absolute bottom-4 left-4 bg-green-500 px-4 py-1.5 rounded-full flex-row items-center gap-1">
               <AppIcon
                 icon={{
@@ -507,9 +404,7 @@ export default function CourseDetailScreen() {
           )}
         </Animated.View>
 
-        {/* ── Body ── */}
         <View className="px-5 pt-5">
-          {/* Category + Level + Bestseller */}
           <Animated.View
             entering={FadeInDown.delay(100).duration(500)}
             className="flex-row flex-wrap gap-2 mb-3"
@@ -524,11 +419,11 @@ export default function CourseDetailScreen() {
             </View>
             <View
               className="px-3 py-1 rounded-full"
-              style={{ backgroundColor: LEVEL_COLORS[course.level] + "20" }}
+              style={{ backgroundColor: LEVEL_COLORS[course?.level] + "20" }}
             >
               <AppText
                 variant="caption"
-                color={LEVEL_COLORS[course.level]}
+                style={{ color: LEVEL_COLORS[course?.level] }}
                 className="font-semibold"
               >
                 {course.level}
@@ -547,14 +442,12 @@ export default function CourseDetailScreen() {
             )}
           </Animated.View>
 
-          {/* Title */}
           <Animated.View entering={FadeInDown.delay(150).duration(500)}>
             <AppText variant="h1" className="mb-3 leading-tight">
               {course.title}
             </AppText>
           </Animated.View>
 
-          {/* Rating Row */}
           <Animated.View
             entering={FadeInDown.delay(200).duration(500)}
             className="flex-row items-center gap-3 mb-5"
@@ -577,7 +470,6 @@ export default function CourseDetailScreen() {
             </AppText>
           </Animated.View>
 
-          {/* Stats Row */}
           <Animated.View
             entering={FadeInDown.delay(250).duration(500)}
             className="flex-row bg-gray-50 rounded-2xl p-4 mb-5"
@@ -615,7 +507,6 @@ export default function CourseDetailScreen() {
             />
           </Animated.View>
 
-          {/* Instructor */}
           <Animated.View
             entering={FadeInRight.delay(300).duration(500)}
             className="flex-row items-center bg-gray-50 p-4 rounded-2xl mb-5"
@@ -629,7 +520,7 @@ export default function CourseDetailScreen() {
                 Instructor
               </AppText>
               <AppText variant="h3" className="mb-0.5">
-                {course.instructor.name}
+                {`${user.title} ${user.first} ${user.last}`}
               </AppText>
               <AppText variant="caption" className="text-gray-400 mb-1">
                 {course.instructor.bio}
@@ -668,7 +559,6 @@ export default function CourseDetailScreen() {
             </View>
           </Animated.View>
 
-          {/* Description */}
           <Animated.View
             entering={FadeInDown.delay(400).duration(500)}
             className="mb-5"
@@ -681,14 +571,18 @@ export default function CourseDetailScreen() {
             </AppText>
           </Animated.View>
 
-          {/* ── What You'll Learn ── */}
           <AccordionSection
             title="What You'll Learn"
             isOpen={openSection === "learn"}
             onToggle={() => toggleSection("learn")}
             delay={450}
           >
-            {course.whatYoullLearn.map((item, i) => (
+            {[
+              `Understand ${course.category} fundamentals`,
+              `Build real-world ${course.category} projects`,
+              `Learn from ${course.instructor?.name || "expert instructors"}`,
+              `Improve problem-solving skills`,
+            ].map((item, i) => (
               <Animated.View
                 key={i}
                 entering={FadeInDown.delay(i * 60).duration(350)}
@@ -712,14 +606,17 @@ export default function CourseDetailScreen() {
             ))}
           </AccordionSection>
 
-          {/* ── Curriculum ── */}
           <AccordionSection
             title="Curriculum"
             isOpen={openSection === "curriculum"}
             onToggle={() => toggleSection("curriculum")}
             delay={500}
           >
-            {course.curriculum.map((lesson, i) => (
+            {[
+              { title: "Introduction", duration: "10m", isPreview: true },
+              { title: "Core Concepts", duration: "25m" },
+              { title: "Advanced Topics", duration: "40m" },
+            ].map((lesson, i) => (
               <Animated.View
                 key={i}
                 entering={FadeInDown.delay(i * 60).duration(350)}
@@ -730,12 +627,14 @@ export default function CourseDetailScreen() {
                     {i + 1}
                   </AppText>
                 </View>
+
                 <AppText
                   variant="body2"
                   className="flex-1 text-gray-700 font-medium"
                 >
                   {lesson.title}
                 </AppText>
+
                 <View className="flex-row items-center gap-2">
                   {lesson.isPreview && (
                     <View className="bg-green-50 px-2 py-0.5 rounded-full">
@@ -747,6 +646,7 @@ export default function CourseDetailScreen() {
                       </AppText>
                     </View>
                   )}
+
                   <AppText variant="caption" className="text-gray-400">
                     {lesson.duration}
                   </AppText>
@@ -755,14 +655,18 @@ export default function CourseDetailScreen() {
             ))}
           </AccordionSection>
 
-          {/* ── Requirements ── */}
           <AccordionSection
             title="Requirements"
             isOpen={openSection === "requirements"}
             onToggle={() => toggleSection("requirements")}
             delay={550}
           >
-            {course.requirements.map((req, i) => (
+            {[
+              "Master the fundamentals and advanced concepts",
+              "Build real-world projects from scratch",
+              "Best practices and industry standards",
+              "Problem-solving and critical thinking skills",
+            ].map((req, i) => (
               <Animated.View
                 key={i}
                 entering={FadeInDown.delay(i * 60).duration(350)}
@@ -841,15 +745,12 @@ export default function CourseDetailScreen() {
         <Animated.View style={enrollButtonStyle}>
           <AppButton
             title={
-              isEnrolled
-                ? "✓  Already Enrolled"
-                : enrolling
-                  ? "Enrolling..."
-                  : `Enroll Now  •  ₹${course.price}`
+              course.isEnrolled
+                ? "✓ Already Enrolled"
+                : `Enroll Now • ₹${course.price}`
             }
-            variant={isEnrolled ? "secondary" : "primary"}
-            loading={enrolling}
-            disabled={isEnrolled || enrolling}
+            variant={course.isEnrolled ? "secondary" : "primary"}
+            disabled={course.isEnrolled}
             onPress={handleEnroll}
           />
         </Animated.View>

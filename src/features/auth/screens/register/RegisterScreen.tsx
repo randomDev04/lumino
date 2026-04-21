@@ -11,14 +11,13 @@ import { useRouter } from "expo-router";
 import { useState } from "react";
 import { View } from "react-native";
 import Animated from "react-native-reanimated";
+import { useAuthStore } from "../../store";
 
-const REGISTER_GRADIENT = ["#FF6444", "#FF9A85"] as const;
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export default function RegisterScreen() {
   const router = useRouter();
-  // const register = useAuthStore((s) => s.register);
-  // const registerStatus = useAuthStore((s) => s.registerStatus);
+  const { register, loading } = useAuthStore();
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -100,18 +99,20 @@ export default function RegisterScreen() {
 
       try {
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-        // await register({
-        //   name: name.trim(),
-        //   email: email.trim(),
-        //   password,
-        //   username: name.trim().toLowerCase().replace(/\s+/g, ""),
-        //   role: "USER",
-        // });
+
+        await register({
+          name: name.trim(),
+          email: email.trim(),
+          password,
+        });
+
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-        // Auth state change drives navigation — no router.replace here
-      } catch {
+
+        router.replace("/(auth)/login");
+      } catch (error) {
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-        // showToast handled inside store
+
+        console.log("Register error:", error);
       }
     });
   };
@@ -196,8 +197,8 @@ export default function RegisterScreen() {
           <Animated.View style={buttonPress.animatedStyle}>
             <AppButton
               title="Create Account"
-              // loading={isLoading}
-              // disabled={isLoading}
+              loading={loading}
+              disabled={loading}
               onPress={handleRegister}
               className="mt-2"
             />

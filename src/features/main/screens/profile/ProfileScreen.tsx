@@ -1,276 +1,18 @@
-import { AppButton, AppIcon, AppText, ScreenWrapper } from "@/shared/ui";
+import { useAuthStore } from "@/features/auth";
+import { AppIcon, AppText, FadeSlideIn, ScreenWrapper } from "@/shared/ui";
 import * as Haptics from "expo-haptics";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Image, Modal, Pressable, ScrollView, View } from "react-native";
-import Animated, {
-  FadeInDown,
-  FadeInRight,
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-} from "react-native-reanimated";
+import Animated, { FadeInDown, FadeInRight } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-
-// ── Mock Data ──────────────────────────────────────────
-const MOCK_USER = {
-  name: "Arjun Mehta",
-  email: "arjun.mehta@gmail.com",
-  username: "arjunmehta",
-  role: "Student",
-  avatar: "https://i.pravatar.cc/300?img=12",
-  joinedDate: "January 2024",
-};
-
-const MOCK_STATS = {
-  enrolled: 7,
-  bookmarks: 14,
-  completed: 3,
-  progress: 42,
-};
-
-const MOCK_MENU = [
-  {
-    key: "edit",
-    icon: "person-outline",
-    title: "Edit Profile",
-    subtitle: "Update your information",
-    route: "/settings/edit-profile",
-    badge: null,
-  },
-  {
-    key: "courses",
-    icon: "school-outline",
-    title: "My Courses",
-    subtitle: `${MOCK_STATS.enrolled} enrolled`,
-    route: "/enrolled",
-    badge: MOCK_STATS.enrolled,
-  },
-  {
-    key: "bookmarks",
-    icon: "bookmark-outline",
-    title: "Bookmarks",
-    subtitle: `${MOCK_STATS.bookmarks} saved`,
-    route: null,
-    badge: MOCK_STATS.bookmarks,
-  },
-  {
-    key: "certificates",
-    icon: "ribbon-outline",
-    title: "Certificates",
-    subtitle: `${MOCK_STATS.completed} earned`,
-    route: "/certificates",
-    badge: MOCK_STATS.completed,
-  },
-  {
-    key: "settings",
-    icon: "settings-outline",
-    title: "Settings",
-    subtitle: "App preferences",
-    route: "/settings",
-    badge: null,
-  },
-  {
-    key: "help",
-    icon: "help-circle-outline",
-    title: "Help & Support",
-    subtitle: "Get assistance",
-    route: null,
-    badge: null,
-    isLast: true,
-  },
-];
-
-// ─────────────────────────────────────────────────────
-// StatItem
-// ─────────────────────────────────────────────────────
-function StatItem({
-  icon,
-  value,
-  label,
-  color,
-  delay,
-}: {
-  icon: string;
-  value: string | number;
-  label: string;
-  color: string;
-  delay: number;
-}) {
-  return (
-    <Animated.View
-      entering={FadeInDown.delay(delay).duration(500)}
-      className="items-center flex-1"
-    >
-      <View
-        className="w-10 h-10 rounded-2xl items-center justify-center mb-1"
-        style={{ backgroundColor: color + "20" }}
-      >
-        <AppIcon
-          icon={{ type: "expo", family: "Ionicons", name: icon as any }}
-          size={20}
-          color={color}
-        />
-      </View>
-      <AppText variant="h3" className="mb-0.5">
-        {value}
-      </AppText>
-      <AppText variant="caption" className="text-gray-400">
-        {label}
-      </AppText>
-    </Animated.View>
-  );
-}
-
-// ─────────────────────────────────────────────────────
-// MenuItem
-// ─────────────────────────────────────────────────────
-function MenuItem({
-  icon,
-  title,
-  subtitle,
-  badge,
-  isLast,
-  delay,
-  onPress,
-}: {
-  icon: string;
-  title: string;
-  subtitle: string;
-  badge?: number | null;
-  isLast?: boolean;
-  delay: number;
-  onPress: () => void;
-}) {
-  const scale = useSharedValue(1);
-
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: scale.value }],
-  }));
-
-  return (
-    <Animated.View entering={FadeInRight.delay(delay).duration(500)}>
-      <Pressable
-        onPress={() => {
-          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-          onPress();
-        }}
-        onPressIn={() => {
-          scale.value = withSpring(0.97);
-        }}
-        onPressOut={() => {
-          scale.value = withSpring(1);
-        }}
-      >
-        <Animated.View
-          style={animatedStyle}
-          className={`flex-row items-center px-4 py-3.5 ${
-            !isLast ? "border-b border-gray-100" : ""
-          }`}
-        >
-          {/* Icon */}
-          <View className="bg-gray-100 p-2.5 rounded-2xl mr-4">
-            <AppIcon
-              icon={{ type: "expo", family: "Ionicons", name: icon as any }}
-              size={20}
-              color="#6B7280"
-            />
-          </View>
-
-          {/* Text */}
-          <View className="flex-1">
-            <AppText variant="body2" className="font-semibold mb-0.5">
-              {title}
-            </AppText>
-            <AppText variant="caption" className="text-gray-400">
-              {subtitle}
-            </AppText>
-          </View>
-
-          {/* Badge + Chevron */}
-          <View className="flex-row items-center gap-2">
-            {badge != null && badge > 0 && (
-              <View className="bg-blue-500 px-2 py-0.5 rounded-full">
-                <AppText variant="caption" color="#fff" className="font-bold">
-                  {badge}
-                </AppText>
-              </View>
-            )}
-            <AppIcon
-              icon={{
-                type: "expo",
-                family: "Ionicons",
-                name: "chevron-forward",
-              }}
-              size={18}
-              color="#D1D5DB"
-            />
-          </View>
-        </Animated.View>
-      </Pressable>
-    </Animated.View>
-  );
-}
-
-// ─────────────────────────────────────────────────────
-// LogoutModal
-// ─────────────────────────────────────────────────────
-function LogoutModal({
-  visible,
-  onConfirm,
-  onCancel,
-}: {
-  visible: boolean;
-  onConfirm: () => void;
-  onCancel: () => void;
-}) {
-  return (
-    <Modal
-      visible={visible}
-      transparent
-      animationType="slide"
-      onRequestClose={onCancel}
-    >
-      <Pressable onPress={onCancel} className="flex-1 bg-black/50 justify-end">
-        <Pressable onPress={(e) => e.stopPropagation()}>
-          <View className="bg-white rounded-t-3xl px-6 pt-4 pb-10">
-            {/* Handle */}
-            <View className="w-10 h-1 bg-gray-200 rounded-full self-center mb-6" />
-
-            {/* Icon */}
-            <View className="items-center mb-5">
-              <View className="bg-red-100 w-16 h-16 rounded-full items-center justify-center mb-3">
-                <AppIcon
-                  icon={{
-                    type: "expo",
-                    family: "Ionicons",
-                    name: "log-out-outline",
-                  }}
-                  size={30}
-                  color="#EF4444"
-                />
-              </View>
-              <AppText variant="h2" className="mb-1">
-                Log Out?
-              </AppText>
-              <AppText variant="body2" className="text-gray-400 text-center">
-                You'll need to sign in again to access your account.
-              </AppText>
-            </View>
-
-            {/* Actions */}
-            <AppButton
-              title="Yes, Log Out"
-              className="bg-red-500 mb-3"
-              onPress={onConfirm}
-            />
-            <AppButton title="Cancel" variant="outline" onPress={onCancel} />
-          </View>
-        </Pressable>
-      </Pressable>
-    </Modal>
-  );
-}
+import { LogoutModal, MenuItem, ProfileCard } from "../../components";
+import { useCourseStore } from "../../store/useCourseStore";
+import {
+  ProfileMenuItem,
+  ProfileStats,
+  ProfileUser,
+} from "../../types/profile.types";
 
 // ─────────────────────────────────────────────────────
 // AvatarModal
@@ -316,9 +58,68 @@ function AvatarModal({
 export default function ProfileScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
+  const authUser = useAuthStore((s) => s.user);
+  const { bookmarkedCourses, enrolledCourses } = useCourseStore();
 
   const [showLogout, setShowLogout] = useState(false);
   const [showAvatar, setShowAvatar] = useState(false);
+
+  console.log(authUser?.avatar?.url);
+
+  const user: ProfileUser = {
+    name: authUser?.username || "User",
+    email: authUser?.email || "",
+    username: authUser?.username || "",
+    role: authUser?.role || "Student",
+
+    avatar:
+      authUser?.avatar?.url && authUser.avatar.url.trim() !== ""
+        ? authUser.avatar.url
+        : `https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=1480&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D`,
+
+    joinedDate: "Recently",
+  };
+
+  const stats: ProfileStats = {
+    enrolled: 12,
+    bookmarks: 8,
+    completed: 5,
+    progress: 72,
+  };
+
+  const menuItems: ProfileMenuItem[] = [
+    {
+      key: "edit-profile",
+      icon: "person-outline",
+      title: "Edit Profile",
+      subtitle: "Update your details",
+      route: "profile/edit-profile",
+    },
+    {
+      key: "bookings",
+      icon: "school-outline",
+      title: "My Courses",
+      subtitle: "View your sessions",
+      route: "profile/enrolled",
+      badge: enrolledCourses.length,
+    },
+    {
+      key: "saved",
+      icon: "bookmark-outline",
+      title: "My Bookmarks",
+      subtitle: "Your favorites",
+      route: "profile/bookmark",
+      badge: bookmarkedCourses.length,
+    },
+    {
+      key: "notifications",
+      icon: "settings-outline",
+      title: "Settings",
+      subtitle: "App preferences",
+      route: "profile/settings",
+      badge: 3,
+    },
+  ];
 
   const handleLogout = () => {
     // swap with real store action when ready
@@ -331,7 +132,7 @@ export default function ProfileScreen() {
       {/* ── Fixed Header ── */}
       <View
         style={{ paddingTop: insets.top + 8 }}
-        className="bg-white px-5 pb-4 border-b border-gray-100"
+        className="bg-blue-400 px-5 pb-4 border-b border-gray-100"
       >
         <View className="flex-row items-center justify-between">
           <AppText variant="h2">Profile</AppText>
@@ -362,109 +163,13 @@ export default function ProfileScreen() {
       >
         <View className="px-5 pt-5">
           {/* ── Profile Card ── */}
-          <Animated.View
-            entering={FadeInDown.delay(0).duration(500)}
-            className="bg-white rounded-3xl p-5 mb-5 shadow-sm"
-          >
-            {/* Avatar + Info */}
-            <View className="flex-row items-center mb-5">
-              {/* Avatar */}
-              <Pressable
-                onPress={() => {
-                  Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-                  setShowAvatar(true);
-                }}
-              >
-                <View className="relative">
-                  <Image
-                    source={{ uri: MOCK_USER.avatar }}
-                    style={{ width: 80, height: 80, borderRadius: 40 }}
-                    resizeMode="cover"
-                  />
-                  {/* Camera badge */}
-                  <Pressable
-                    onPress={() => {
-                      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-                      // wire ImagePicker when ready
-                    }}
-                    className="absolute -bottom-1 -right-1 bg-blue-500 p-1.5 rounded-full"
-                  >
-                    <AppIcon
-                      icon={{
-                        type: "expo",
-                        family: "Ionicons",
-                        name: "camera",
-                      }}
-                      size={13}
-                      color="#fff"
-                    />
-                  </Pressable>
-                </View>
-              </Pressable>
-
-              {/* Info */}
-              <View className="flex-1 ml-4">
-                <AppText variant="h3" className="mb-0.5">
-                  {MOCK_USER.name}
-                </AppText>
-                <AppText variant="caption" className="text-gray-400 mb-2">
-                  {MOCK_USER.email}
-                </AppText>
-                <View className="flex-row items-center gap-2">
-                  <View className="bg-blue-500 px-3 py-1 rounded-full">
-                    <AppText
-                      variant="caption"
-                      color="#fff"
-                      className="font-semibold"
-                    >
-                      {MOCK_USER.role}
-                    </AppText>
-                  </View>
-                  <View className="bg-gray-100 px-3 py-1 rounded-full">
-                    <AppText variant="caption" className="text-gray-500">
-                      Since {MOCK_USER.joinedDate}
-                    </AppText>
-                  </View>
-                </View>
-              </View>
-            </View>
-
-            {/* Divider */}
-            <View className="h-px bg-gray-100 mb-5" />
-
-            {/* Stats */}
-            <View className="flex-row">
-              <StatItem
-                icon="school-outline"
-                value={MOCK_STATS.enrolled}
-                label="Enrolled"
-                color="#3B82F6"
-                delay={150}
-              />
-              <StatItem
-                icon="checkmark-circle-outline"
-                value={MOCK_STATS.completed}
-                label="Completed"
-                color="#10B981"
-                delay={200}
-              />
-              <StatItem
-                icon="bookmark-outline"
-                value={MOCK_STATS.bookmarks}
-                label="Saved"
-                color="#8B5CF6"
-                delay={250}
-              />
-              <StatItem
-                icon="trending-up-outline"
-                value={`${MOCK_STATS.progress}%`}
-                label="Progress"
-                color="#F59E0B"
-                delay={300}
-              />
-            </View>
-          </Animated.View>
-
+          <ProfileCard
+            user={user}
+            stats={stats}
+            onAvatarPress={() => {
+              console.log("Open avatar modal");
+            }}
+          />
           {/* ── Progress Bar Card ── */}
           <Animated.View
             entering={FadeInDown.delay(200).duration(500)}
@@ -475,7 +180,7 @@ export default function ProfileScreen() {
                 Overall Progress
               </AppText>
               <AppText variant="caption" className="text-blue-500 font-bold">
-                {MOCK_STATS.progress}%
+                {stats.progress}%
               </AppText>
             </View>
 
@@ -484,14 +189,13 @@ export default function ProfileScreen() {
               <Animated.View
                 entering={FadeInRight.delay(400).duration(800)}
                 className="h-full bg-blue-500 rounded-full"
-                style={{ width: `${MOCK_STATS.progress}%` }}
+                style={{ width: `${stats.progress}%` }}
               />
             </View>
 
             <View className="flex-row items-center justify-between mt-2">
               <AppText variant="caption" className="text-gray-400">
-                {MOCK_STATS.completed} of {MOCK_STATS.enrolled} courses
-                completed
+                {stats.completed} of {stats.enrolled} courses completed
               </AppText>
               <AppText variant="caption" className="text-gray-400">
                 🎯 Keep going!
@@ -500,34 +204,34 @@ export default function ProfileScreen() {
           </Animated.View>
 
           {/* ── Menu Items ── */}
-          <Animated.View
-            entering={FadeInDown.delay(300).duration(500)}
-            className="bg-white rounded-3xl overflow-hidden shadow-sm mb-5"
-          >
-            {MOCK_MENU.map((item, index) => (
+
+          <View className="mt-6 bg-white rounded-3xl shadow-sm">
+            {menuItems.map((item, index) => (
               <MenuItem
                 key={item.key}
                 icon={item.icon}
                 title={item.title}
                 subtitle={item.subtitle}
                 badge={item.badge}
-                isLast={item.isLast}
-                delay={350 + index * 60}
+                isLast={item.isLast || index === menuItems.length - 1}
+                delay={index * 50}
                 onPress={() => {
-                  if (item.route) router.push(item.route as any);
+                  if (item.route) {
+                    router.push(item.route as any);
+                  }
                 }}
               />
             ))}
-          </Animated.View>
+          </View>
 
           {/* ── Logout Button ── */}
-          <Animated.View entering={FadeInDown.delay(700).duration(500)}>
+          <FadeSlideIn delay={700} duration={500}>
             <Pressable
               onPress={() => {
                 Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
                 setShowLogout(true);
               }}
-              className="bg-red-50 border border-red-100 rounded-2xl p-4 flex-row items-center justify-center gap-2"
+              className="bg-red-50 border border-red-100 rounded-2xl p-4 flex-row items-center justify-center gap-2 mt-10"
             >
               <AppIcon
                 icon={{
@@ -546,17 +250,17 @@ export default function ProfileScreen() {
                 Log Out
               </AppText>
             </Pressable>
-          </Animated.View>
+          </FadeSlideIn>
 
           {/* ── App Version ── */}
-          <Animated.View entering={FadeInDown.delay(800).duration(500)}>
+          <FadeSlideIn delay={800} duration={500}>
             <AppText
               variant="caption"
               className="text-gray-300 text-center mt-5"
             >
-              Learnexia v1.0.0
+              Lumino v1.0.0
             </AppText>
-          </Animated.View>
+          </FadeSlideIn>
         </View>
       </ScrollView>
 
@@ -569,7 +273,7 @@ export default function ProfileScreen() {
 
       <AvatarModal
         visible={showAvatar}
-        avatarUri={MOCK_USER.avatar}
+        avatarUri={user.avatar}
         onClose={() => setShowAvatar(false)}
       />
     </ScreenWrapper>

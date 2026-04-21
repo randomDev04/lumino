@@ -15,7 +15,7 @@ import Animated from "react-native-reanimated";
 import { useAuthStore } from "../../store";
 
 export default function LoginScreen() {
-  const { login } = useAuthStore();
+  const { login, loading } = useAuthStore();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
@@ -24,8 +24,6 @@ export default function LoginScreen() {
   const emailShake = useShakeAnimation();
   const passwordShake = useShakeAnimation();
   const buttonPress = useButtonPressAnimation();
-
-  // const isLoading = status === "loading";
 
   const validate = (): boolean => {
     let valid = true;
@@ -57,14 +55,12 @@ export default function LoginScreen() {
 
       try {
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-        // await login({ email, password });
-        login();
+        await login(email, password);
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-        // Navigation is handled by your root navigator watching auth state
-        // Don't navigate manually here — let Redux/auth state drive it
-      } catch {
+        // no navigation here
+      } catch (error) {
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-        // Errors shown via toast in authSlice — no local state needed
+        console.log("Error ==> ", error);
       }
     });
   };
@@ -137,8 +133,8 @@ export default function LoginScreen() {
           <Animated.View style={buttonPress.animatedStyle}>
             <AppButton
               title="Sign In"
-              // loading={isLoading}
-              // disabled={isLoading}
+              loading={loading}
+              disabled={loading}
               onPress={handleLogin}
             />
           </Animated.View>

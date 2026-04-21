@@ -1,8 +1,7 @@
-import { useAuthStore } from "@/features/auth/store/auth.store";
 import { AppIcon, AppText } from "@/shared/ui";
 import type { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import * as Haptics from "expo-haptics";
-import { Redirect, Tabs } from "expo-router";
+import { Tabs } from "expo-router";
 import { Pressable, View } from "react-native";
 import Animated, {
   useAnimatedStyle,
@@ -21,16 +20,10 @@ type TabConfig = {
 
 const TABS: TabConfig[] = [
   {
-    name: "home",
+    name: "index",
     label: "Home",
     icon: "home-outline",
     iconActive: "home",
-  },
-  {
-    name: "my-learning",
-    label: "My Learning",
-    icon: "school-outline",
-    iconActive: "school",
   },
   {
     name: "profile",
@@ -112,7 +105,6 @@ function CustomTabBar({ state, navigation }: BottomTabBarProps) {
 
   return (
     <View
-      style={{ paddingBottom: insets.bottom || 8 }}
       className="flex-row bg-white border-t border-gray-100 pt-2"
       // Shadow
       style={{
@@ -151,19 +143,12 @@ function CustomTabBar({ state, navigation }: BottomTabBarProps) {
 
 // ── Layout ─────────────────────────────────────────────
 export default function MainLayout() {
-  const isLoggedIn = useAuthStore((s) => s.isLoggedIn);
-
-  if (!isLoggedIn) {
-    return <Redirect href="/(auth)/login" />;
-  }
-
   return (
     <Tabs
       tabBar={(props) => <CustomTabBar {...props} />}
       screenOptions={{ headerShown: false }}
     >
-      <Tabs.Screen name="home" />
-      <Tabs.Screen name="my-learning" />
+      <Tabs.Screen name="index" />
       <Tabs.Screen name="profile" />
     </Tabs>
   );

@@ -1,1 +1,3 @@
-export { default as SettingScreen } from "./SettingsScreen";
+export { default as BookmarkScreen } from "./bookmark/BookmarkScreen";
+export { default as SettingScreen } from "./settings/SettingsScreen";
+

@@ -15,7 +15,7 @@ interface AppButtonProps {
 }
 
 const variantStyles: Record<ButtonVariant, string> = {
-  primary: "bg-orange-500",
+  primary: "bg-blue-400",
   secondary: "bg-gray-200",
   outline: "border border-gray-300 bg-transparent",
   ghost: "bg-transparent",

@@ -7,8 +7,8 @@ import AppIcon from "../appIcon/AppIcon";
 import AppText from "../appText/AppText";
 
 const HEADER_GRADIENT: readonly [string, string, ...string[]] = [
-  "#FF6444",
-  "#FF9A85",
+  "#44a5ff",
+  "#44a5ff",
 ];
 
 // ── Standalone props — no navigator dependency ─────────
