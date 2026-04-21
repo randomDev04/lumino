@@ -47,8 +47,8 @@
       "reactCompiler": true
     },
     "web": {
-      "bundler": "metro"
-      // "output": "static",
+      "bundler": "metro",
+      "output": "static"
     }
   }
 }

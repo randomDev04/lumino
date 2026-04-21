@@ -1,4 +1,4 @@
-package com.anonymous.gymuzzitrainer
+package com.lms.lumio
 import expo.modules.splashscreen.SplashScreenManager
 
 import android.os.Build
