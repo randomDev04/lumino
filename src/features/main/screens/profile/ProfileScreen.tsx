@@ -60,6 +60,8 @@ export default function ProfileScreen() {
   const insets = useSafeAreaInsets();
   const authUser = useAuthStore((s) => s.user);
   const { bookmarkedCourses, enrolledCourses } = useCourseStore();
+  const clearSession = useAuthStore((s) => s.clearSession);
+  const resetCourses = useCourseStore((s) => s.reset);
 
   const [showLogout, setShowLogout] = useState(false);
   const [showAvatar, setShowAvatar] = useState(false);
@@ -123,8 +125,9 @@ export default function ProfileScreen() {
 
   const handleLogout = () => {
     // swap with real store action when ready
+    clearSession();
+    resetCourses();
     setShowLogout(false);
-    router.replace("/(auth)/login");
   };
 
   return (

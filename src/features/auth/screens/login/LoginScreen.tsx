@@ -20,6 +20,7 @@ export default function LoginScreen() {
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [apiError, setApiError] = useState("");
 
   const emailShake = useShakeAnimation();
   const passwordShake = useShakeAnimation();
@@ -58,9 +59,10 @@ export default function LoginScreen() {
         await login(email, password);
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
         // no navigation here
-      } catch (error) {
+      } catch (error: unknown) {
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-        console.log("Error ==> ", error);
+
+        setApiError(error?.message || "Something went wrong");
       }
     });
   };
@@ -115,6 +117,12 @@ export default function LoginScreen() {
               error={passwordError}
             />
           </Animated.View>
+
+          {apiError ? (
+            <AppText style={{ color: "red" }} className="text-center mb-4">
+              {apiError}
+            </AppText>
+          ) : null}
 
           {/* Forgot Password */}
           <View className="items-end -mt-2 mb-6">

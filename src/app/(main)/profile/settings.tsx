@@ -10,7 +10,7 @@ import {
 import * as Haptics from "expo-haptics";
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { Pressable, ScrollView, Switch, View } from "react-native";
+import { Alert, Pressable, ScrollView, Switch, View } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -27,7 +27,6 @@ type Settings = {
   autoDownload: boolean;
   reduceData: boolean;
   offlineMode: boolean;
-  darkMode: boolean;
 };
 
 const DEFAULT_SETTINGS: Settings = {
@@ -37,7 +36,6 @@ const DEFAULT_SETTINGS: Settings = {
   autoDownload: false,
   reduceData: true,
   offlineMode: false,
-  darkMode: false,
 };
 
 // ─────────────────────────────────────────────────────
@@ -273,6 +271,21 @@ function SettingsScreen() {
   const handleClearCache = () => {
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
     // wire real logic later
+    Alert.alert(
+      "Clear Cache",
+      "This will clear all cached data. Are you sure?",
+      [
+        { text: "Cancel", style: "cancel" },
+        {
+          text: "Clear",
+          style: "destructive",
+          onPress: async () => {
+            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+            Alert.alert("Success", "Cache cleared successfully!");
+          },
+        },
+      ],
+    );
   };
 
   const handleResetSettings = () => {
@@ -320,26 +333,6 @@ function SettingsScreen() {
               onToggle={() => toggle("pushNotifications")}
               color="#3B82F6"
               disabled={!settings.allNotifications}
-              isLast
-            />
-          </FadeSlideIn>
-
-          {/* ── Appearance ── */}
-          <FadeSlideIn delay={100} duration={400}>
-            <SectionHeader
-              icon="color-palette-outline"
-              label="Appearance"
-              color="#8B5CF6"
-              bg="#EDE9FE"
-            />
-            <ToggleRow
-              title={settings.darkMode ? "Dark Mode" : "Light Mode"}
-              subtitle={
-                settings.darkMode ? "Using dark theme" : "Using light theme"
-              }
-              value={settings.darkMode}
-              onToggle={() => toggle("darkMode")}
-              color="#8B5CF6"
               isLast
             />
           </FadeSlideIn>

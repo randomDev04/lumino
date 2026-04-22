@@ -1,4 +1,4 @@
-import { useAuthStore } from "@/features/auth";
+import { useAuthStore } from "@/features/auth/store/auth.store";
 import { AxiosRequestConfig, InternalAxiosRequestConfig } from "axios";
 import { createAxiosInstance } from "./apiCore";
 import { normalizeError } from "./apiErrorHandler";

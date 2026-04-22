@@ -1,3 +1,4 @@
+import { notificationService } from "@/shared/services";
 import { storage } from "@/shared/storage";
 import { create } from "zustand";
 import { courseService } from "../services/course.service";
@@ -30,6 +31,8 @@ type CourseState = {
   hydrateLocal: () => void;
 
   setSearchQuery: (q: string) => void;
+
+  reset: () => void;
 };
 
 export const useCourseStore = create<CourseState>((set, get) => ({
@@ -113,6 +116,14 @@ export const useCourseStore = create<CourseState>((set, get) => ({
 
     storage.set(KEYS.BOOKMARKS, JSON.stringify(updatedBookmarks));
 
+    if (!isBookmarked) {
+      const count = updatedBookmarks.length;
+
+      if ([5, 10, 20].includes(count)) {
+        notificationService.showBookmarkMilestoneNotification(count);
+      }
+    }
+
     set({
       bookmarkedCourses: updatedBookmarks,
       courses: updatedCourses,
@@ -141,4 +152,20 @@ export const useCourseStore = create<CourseState>((set, get) => ({
 
   /* ---------------- SEARCH ---------------- */
   setSearchQuery: (q) => set({ searchQuery: q }),
+
+  reset: () => {
+    storage.remove(KEYS.BOOKMARKS);
+    storage.remove(KEYS.ENROLLED);
+    storage.remove(KEYS.COURSES);
+
+    set({
+      courses: [],
+      bookmarkedCourses: [],
+      enrolledCourses: [],
+      searchQuery: "",
+      loading: false,
+      refreshing: false,
+      error: null,
+    });
+  },
 }));
