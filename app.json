@@ -24,8 +24,8 @@
       "package": "com.lms.lumio"
     },
     "web": {
-      "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "bundler": "metro",
+      "output": "static"
     },
     "plugins": [
       "expo-router",
@@ -40,15 +40,12 @@
             "backgroundColor": "#000000"
           }
         }
-      ]
+      ],
+      "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
-    },
-    "web": {
-      "bundler": "metro",
-      "output": "static"
     }
   }
 }
