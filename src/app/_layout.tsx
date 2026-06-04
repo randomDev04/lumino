@@ -48,8 +48,8 @@ export default function RootLayout() {
   const inAuthGroup = segments[0] === "(auth)";
 
   if (!token && !inAuthGroup) {
-    return <Redirect href="/(auth)/login" />;
-  }
+  return <Redirect href="/(auth)/login" />;
+}
 
   if (token && inAuthGroup) {
     return <Redirect href="/(main)" />;

@@ -1,4 +1,4 @@
-import { storage } from "@/shared/storage"; // help to save date permanetly on phone
+//import { storage } from "@/shared/storage"; // help to save date permanetly on phone
 import { create } from "zustand"; // this zustand lib create store
 import { myAuthService } from "../services/myAuth.service"; // service file talk to server for login
 
@@ -37,20 +37,18 @@ export const useMyAuthStore = create<MyAuthState>((set, get) => ({
     // LOGIN FUNCTION
     login: async (email, password) => {
         try {
-
             // set loading true ( store we are busy ) and show status "loading"
             set({ loading: true, status: "loading" })
 
             // call login from myAuthService with email and password
-            //await = wait for server to response before moving on
+            // await = wait for server to response before moving on
             // data = what server send back ( token + user info)
             const data = await myAuthService.login({ email, password})
 
-            // save to stroage bcz- hydarte() read it when app opens to check logged in? so no need of login again
-            storage.set(KEYS.TOKEN, data.accessToken)
-            storage.set(KEYS.REFRESH, data.refreshToken)
-            storage.set(KEYS.USER, JSON.stringify(data.user) )
-            // here we use JSON.stringify to convert OBJECT into string bcz - data always store in text 
+            // storage commented out temporarily for testing
+            // storage.set(KEYS.TOKEN, data.accessToken)
+            // storage.set(KEYS.REFRESH, data.refreshToken)
+            // storage.set(KEYS.USER, JSON.stringify(data.user))
 
             set({
                 token: data.accessToken,
@@ -60,7 +58,6 @@ export const useMyAuthStore = create<MyAuthState>((set, get) => ({
                 loading: false,
             })
 
-            
         // here catch (error) has 2 job
         // 1. "something went wrong" go back to normal, stop loading spinner, status back to idle
         // 2. throw error- screen show error message
@@ -71,44 +68,42 @@ export const useMyAuthStore = create<MyAuthState>((set, get) => ({
     },
 
     // clearSession = LOGOUT FUNCTION
-    // when user taps "logout" - it will remove token, refreshToken, user from stroage
+    // when user taps "logout" - it will remove token, refreshToken, user from storage
     clearSession: () => {
-    // remove from phone storage
-    storage.remove(KEYS.TOKEN)
-    storage.remove(KEYS.REFRESH)
-    storage.remove(KEYS.USER)
+        // storage commented out temporarily for testing
+        // storage.remove(KEYS.TOKEN)
+        // storage.remove(KEYS.REFRESH)
+        // storage.remove(KEYS.USER)
 
-    // here values are null and "idle", bcz- token, refreshToken, user are removed from stoage
-    set({
-        token: null,
-        refreshToken: null,
-        user: null,
-        status: "idle",
-    })
- },
+        // here values are null and "idle"
+        set({
+            token: null,
+            refreshToken: null,
+            user: null,
+            status: "idle",
+        })
+    },
 
- // HYDRATE FUNCTION
+    // HYDRATE FUNCTION
     // runs when app opens
     // checks if user was already logged in
-
     hydrate: () => {
-        // read saved values form phone storage
-        const token = storage.getString(KEYS.TOKEN)
-        const refreshToken = storage.getString(KEYS.REFRESH)
-        const userStr = storage.getString(KEYS.USER)
+        // storage commented out temporarily for testing
+        // const token = storage.getString(KEYS.TOKEN)
+        // const refreshToken = storage.getString(KEYS.REFRESH)
+        // const userStr = storage.getString(KEYS.USER)
 
-        // if all 3 exist → user was logged in before!
-        if (token && refreshToken && userStr) {
-            set({
-                token,
-                refreshToken,
-                user:JSON.parse(userStr),
-                status: "authenticated",
-            })
-        }
+        // if block commented out temporarily
+        // if (token && refreshToken && userStr) {
+        //     set({
+        //         token,
+        //         refreshToken,
+        //         user: JSON.parse(userStr),
+        //         status: "authenticated",
+        //     })
+        // }
 
         // mark as checked whether logged in or not
-        set({ hydrated: true})
+        set({ hydrated: true })
     },
 }))
-
